@@ -1,5 +1,5 @@
 <template>
-  <dialog id="my_modal_1" class="modal" :open="open">
+  <dialog class="modal" :open="open">
     <div class="modal-box">
       <h3 class="text-lg font-bold">{{ title }}</h3>
       <p class="py-4" v-if="description">{{ description }}</p>
@@ -28,7 +28,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, watch, nextTick } from 'vue';
 
 interface Props {
   open: boolean;
@@ -37,7 +37,7 @@ interface Props {
   description?: string;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
 
 const emits = defineEmits<{
   close: [void];
@@ -46,6 +46,13 @@ const emits = defineEmits<{
 
 const inputValue = ref('');
 const inputRef = ref<HTMLInputElement | null>(null);
+
+watch(props, async ({ open }) => {
+  if (open) {
+    await nextTick();
+    inputRef.value?.focus();
+  }
+});
 
 const submitValue = () => {
   if (!inputValue.value.trim()) {
