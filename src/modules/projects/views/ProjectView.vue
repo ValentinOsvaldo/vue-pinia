@@ -28,7 +28,7 @@
               <td>{{ task.name }}</td>
               <td>{{ task.completedAt?.toLocaleString() }}</td>
             </tr>
-            <tr class="hover:bg-base-300">
+            <tr>
               <th></th>
               <td>
                 <input

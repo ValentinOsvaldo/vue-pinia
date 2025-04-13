@@ -25,7 +25,6 @@ export const useProjectsStore = defineStore('projects', () => {
     if (!project) return;
 
     project.tasks.push({
-      completedAt: null,
       id: uuidv4(),
       name: taskName,
     });
@@ -40,7 +39,7 @@ export const useProjectsStore = defineStore('projects', () => {
 
     if (!task) throw new Error(`Task ${taskId} not found`);
 
-    task.completedAt = task.completedAt ? null : new Date();
+    task.completedAt = task.completedAt ? undefined : new Date();
   };
 
   return {
@@ -60,7 +59,7 @@ export const useProjectsStore = defineStore('projects', () => {
           id: project.id,
           name: project.name,
           taskCount: total,
-          completion,
+          completion: Math.round(completion),
         };
       });
     }),
